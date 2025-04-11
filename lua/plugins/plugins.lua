@@ -8,10 +8,10 @@ return {
       })
     end,
   },
-  {
-    "powerman/vim-plugin-AnsiEsc",
-    config = function()
-      vim.cmd("autocmd BufReadPost * :AnsiEsc")
-    end,
-  },
+  -- {
+  --   "powerman/vim-plugin-AnsiEsc",
+  --   config = function()
+  --     vim.cmd("autocmd BufReadPost * :AnsiEsc")
+  --   end,
+  -- },
 }

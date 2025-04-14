@@ -8,6 +8,16 @@ return {
       })
     end,
   },
+  {
+    "akinsho/bufferline.nvim",
+    opts = {
+      options = {
+        numbers = function(opts)
+          return opts.id
+        end,
+      },
+    },
+  },
   -- {
   --   "powerman/vim-plugin-AnsiEsc",
   --   config = function()

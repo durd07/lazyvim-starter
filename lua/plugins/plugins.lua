@@ -18,10 +18,22 @@ return {
       },
     },
   },
+  {
+    "loctvl842/monokai-pro.nvim",
+    config = function()
+      require("monokai-pro").setup()
+    end,
+  },
   -- {
   --   "powerman/vim-plugin-AnsiEsc",
   --   config = function()
   --     vim.cmd("autocmd BufReadPost * :AnsiEsc")
   --   end,
   -- },
+  {
+    "LazyVim/LazyVim",
+    opts = {
+      colorscheme = "monokai-pro",
+    },
+  },
 }

@@ -36,4 +36,83 @@ return {
       colorscheme = "monokai-pro-ristretto",
     },
   },
+  -- {
+  --   "toppair/peek.nvim",
+  --   event = { "VeryLazy" },
+  --   build = "deno task --quiet build:fast",
+  --   config = function()
+  --     require("peek").setup()
+  --     vim.api.nvim_create_user_command("PeekOpen", require("peek").open, {})
+  --     vim.api.nvim_create_user_command("PeekClose", require("peek").close, {})
+  --   end,
+  -- },
+  -- {
+  --   "iamcco/markdown-preview.nvim",
+  --   keys = { { "<f7>", "<cmd> MarkdownPreviewToggle <CR>" } },
+  --   cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+  --   ft = "markdown",
+  --   build = "cd app && npm install",
+  --   config = function()
+  --     vim.api.nvim_exec2(
+  --       [[
+  --       function MkdpBrowserFn(url)
+  --         execute 'silent ! kitty @ launch --dont-take-focus --bias 40 awrit ' . a:url
+  --       endfunction
+  --     ]],
+  --       {}
+  --     )
+  --
+  --     vim.g.mkdp_theme = "dark"
+  --     vim.g.mkdp_filetypes = { "markdown" }
+  --     vim.g.mkdp_browserfunc = "MkdpBrowserFn"
+  --   end,
+  -- },
+  {
+    "dhananjaylatkar/cscope_maps.nvim",
+    dependencies = {
+      -- "nvim-telescope/telescope.nvim", -- optional [for picker="telescope"]
+      "ibhagwan/fzf-lua", -- optional [for picker="fzf-lua"]
+      -- "echasnovski/mini.pick", -- optional [for picker="mini-pick"]
+      -- "folke/snacks.nvim", -- optional [for picker="snacks"]
+    },
+    opts = {
+      -- USE EMPTY FOR DEFAULT OPTIONS
+      -- DEFAULTS ARE LISTED BELOW
+      --   -- maps related defaults
+      disable_maps = false, -- "true" disables default keymaps
+      skip_input_prompt = true, -- "true" doesn't ask for input
+      prefix = "<C-\\>", -- prefix to trigger maps
+
+      -- cscope related defaults
+      cscope = {
+        -- location of cscope db file
+        db_file = "GTAGS", -- DB or table of DBs
+        -- NOTE:
+        --   when table of DBs is provided -
+        --   first DB is "primary" and others are "secondary"
+        --   primary DB is used for build and project_rooter
+        -- cscope executable
+        exec = "gtags-cscope", -- "cscope" or "gtags-cscope"
+        -- choose your fav picker
+        picker = "fzf-lua", -- "quickfix", "telescope", "fzf-lua" or "mini-pick"
+        -- "true" does not open picker for single result, just JUMP
+        skip_picker_for_single_result = true, -- "false" or "true"
+        -- these args are directly passed to "cscope -f <db_file> <args>"
+        db_build_cmd = { args = { "-bqkv" } },
+        -- statusline indicator, default is cscope executable
+        statusline_indicator = nil,
+        -- try to locate db_file in parent dir(s)
+        project_rooter = {
+          enable = true, -- "true" or "false"
+          -- change cwd to where db_file is located
+          change_cwd = true, -- "true" or "false"
+        },
+      },
+
+      -- stack view defaults
+      stack_view = {
+        tree_hl = true, -- toggle tree highlighting
+      },
+    },
+  },
 }

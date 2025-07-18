@@ -1,4 +1,19 @@
 return {
+  -- https://github.com/LazyVim/LazyVim/issues/6039
+  { "mason-org/mason.nvim", version = "^1.0.0" },
+  { "mason-org/mason-lspconfig.nvim", version = "^1.0.0" },
+  -- {
+  --   "HakonHarnes/img-clip.nvim",
+  --   event = "VeryLazy",
+  --   opts = {
+  --     -- add options here
+  --     -- or leave it empty to use the default settings
+  --   },
+  --   keys = {
+  --     -- suggested keymap
+  --     { "<leader>p", "<cmd>PasteImage<cr>", desc = "Paste image from system clipboard" },
+  --   },
+  -- },
   {
     "mfussenegger/nvim-dap",
     keys = {
@@ -195,4 +210,70 @@ return {
       },
     },
   },
+  {
+    "ojroques/nvim-osc52",
+    event = "VeryLazy",
+    config = function()
+      require("osc52").setup({
+        max_length = 100000,
+        silent = false,
+        trim = false,
+      })
+    end,
+  },
+  -- {
+  --   "huggingface/llm.nvim",
+  --   opts = {
+  --     backend = "openai",
+  --     model = "Qwen/Qwen2.5-Coder-32B-Instruct-GPTQ-Int8",
+  --     url = "http://10.67.39.230:38081/v1/", -- llm-ls uses "/v1/completions"
+  --     -- cf https://github.com/abetlen/llama-cpp-python?tab=readme-ov-file#openai-compatible-web-server
+  --     request_body = {
+  --       temperature = 0.1,
+  --       top_p = 0.95,
+  --     },
+  --     -- cf Setup
+  --   },
+  -- },
+  -- {
+  --   "Kurama622/llm.nvim",
+  --   dependencies = { "nvim-lua/plenary.nvim", "MunifTanjim/nui.nvim" },
+  --   cmd = { "LLMSessionToggle", "LLMSelectedTextHandler", "LLMAppHandler" },
+  --   config = function()
+  --     require("llm").setup({
+  --       url = "http://10.67.39.230:38081/v1/chat/completions",
+  --       model = "Qwen/Qwen2.5-Coder-32B-Instruct-GPTQ-Int8",
+  --       api_type = "openai",
+  --       app_handler = {
+  --         Completion = {
+  --           opts = {
+  --             keymap = {
+  --               toggle = {
+  --                 mode = "n",
+  --                 keys = "<leader>cp",
+  --               },
+  --               virtual_text = {
+  --                 accept = {
+  --                   mode = "i",
+  --                   keys = "<A-a>",
+  --                 },
+  --                 next = {
+  --                   mode = "i",
+  --                   keys = "<A-n>",
+  --                 },
+  --                 prev = {
+  --                   mode = "i",
+  --                   keys = "<A-p>",
+  --                 },
+  --               },
+  --             },
+  --           },
+  --         },
+  --       },
+  --     })
+  --   end,
+  --   keys = {
+  --     { "<leader>ac", mode = "n", "<cmd>LLMSessionToggle<cr>" },
+  --   },
+  -- },
 }

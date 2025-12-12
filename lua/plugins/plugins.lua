@@ -225,6 +225,27 @@ return {
     "github/copilot.vim",
     lazy = false, -- load on startup
   },
+  {
+    "danymat/neogen",
+    dependencies = "nvim-treesitter/nvim-treesitter",
+    config = function()
+      require("neogen").setup({
+        enabled = true,
+        -- snippet_engine = "luasnip", -- works well with LazyVim default
+      })
+    end,
+    keys = {
+      {
+        "<leader>cc",
+        function()
+          require("neogen").generate()
+        end,
+        desc = "Generate doc comment",
+      },
+    },
+    -- Uncomment next line if you want to follow only stable versions
+    -- version = "*"
+  },
   -- {
   --   "huggingface/llm.nvim",
   --   opts = {

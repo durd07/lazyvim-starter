@@ -26,3 +26,6 @@ vim.g.clipboard = {
   copy = { ["+"] = copy, ["*"] = copy },
   paste = { ["+"] = paste, ["*"] = paste },
 }
+
+-- loctvl842/monokai-pro.nvim doesn't set SnacksIndent, so indent lines has no color(has the same color with background), set it here
+vim.api.nvim_set_hl(0, "SnacksIndent", { fg = "#3d3d3d", nocombine = true })

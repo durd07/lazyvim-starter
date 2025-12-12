@@ -221,6 +221,10 @@ return {
       })
     end,
   },
+  {
+    "github/copilot.vim",
+    lazy = false, -- load on startup
+  },
   -- {
   --   "huggingface/llm.nvim",
   --   opts = {

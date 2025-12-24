@@ -222,6 +222,10 @@ return {
     end,
   },
   {
+    "github/copilot.vim",
+    lazy = false, -- load on startup
+  },
+  {
     "danymat/neogen",
     dependencies = "nvim-treesitter/nvim-treesitter",
     config = function()

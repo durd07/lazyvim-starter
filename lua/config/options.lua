@@ -8,10 +8,23 @@ vim.opt.conceallevel = 0
 
 vim.opt.shiftwidth = 8 -- Size of an indent
 vim.opt.tabstop = 8 -- Number of spaces tabs count for
-vim.opt.list = false -- Show some invisible characters (tabs...
 
 -- vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 -- vim.opt.foldmethod = "expr"
+
+-- Disable LazyVim auto format
+vim.g.autoformat = false
+vim.opt.list = true
+vim.opt.listchars = {
+  space = "·",
+  tab = " ->",
+  eol = '¶',   -- Shows end-of-line as a paragraph sign
+  trail = "·",
+  nbsp = "°",
+  extends = '>',
+  precedes = '<'
+}
+
 
 local function copy(lines, _)
   require("osc52").copy(table.concat(lines, "\n"))

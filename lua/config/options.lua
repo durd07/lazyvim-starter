@@ -18,16 +18,29 @@ opt.softtabstop = 0
 
 vim.opt.list = true
 vim.opt.listchars = {
-    trail = '·', -- Shows trailing spaces as middle dots
-    tab = '» ',  -- Shows tabs as '>>' followed by a space
-    eol = '¶',   -- Shows end-of-line as a paragraph sign
-    space = '·', -- Shows all spaces as middle dots (optional, can be noisy)
-    extends = '>',
-    precedes = '<'
+  trail = "·", -- Shows trailing spaces as middle dots
+  tab = "» ", -- Shows tabs as '>>' followed by a space
+  eol = "¶", -- Shows end-of-line as a paragraph sign
+  space = "·", -- Shows all spaces as middle dots (optional, can be noisy)
+  extends = ">",
+  precedes = "<",
 }
 
 opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 opt.foldmethod = "expr"
+
+-- Disable LazyVim auto format
+vim.g.autoformat = false
+vim.opt.list = true
+vim.opt.listchars = {
+  space = "·",
+  tab = " ->",
+  eol = "¶", -- Shows end-of-line as a paragraph sign
+  trail = "·",
+  nbsp = "°",
+  extends = ">",
+  precedes = "<",
+}
 
 local function copy(lines, _)
   require("osc52").copy(table.concat(lines, "\n"))

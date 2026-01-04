@@ -1,7 +1,10 @@
 -- Options are automatically loaded before lazy.nvim startup
 -- Default options that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/options.lua
 -- Add any additional options here
+vim.opt.statuscolumn = ""
+vim.opt.signcolumn = "auto"
 
+vim.g.snacks_animate = false
 vim.diagnostic.enable(false) -- <leader>ud	Toggle Diagnostics
 
 -- Disable LazyVim auto format
@@ -16,22 +19,13 @@ opt.tabstop = 8
 opt.shiftwidth = 8
 opt.softtabstop = 0
 
-vim.opt.list = true
-vim.opt.listchars = {
-  trail = "·", -- Shows trailing spaces as middle dots
-  tab = "» ", -- Shows tabs as '>>' followed by a space
-  eol = "¶", -- Shows end-of-line as a paragraph sign
-  space = "·", -- Shows all spaces as middle dots (optional, can be noisy)
-  extends = ">",
-  precedes = "<",
-}
-
 opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 opt.foldmethod = "expr"
 
 -- Disable LazyVim auto format
 vim.g.autoformat = false
-vim.opt.list = true
+
+vim.opt.list = false
 vim.opt.listchars = {
   space = "·",
   tab = " ->",

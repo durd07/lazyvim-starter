@@ -15,6 +15,22 @@ return {
   --   },
   -- },
   {
+    "folke/snacks.nvim",
+    opts = {
+      image = {
+        enabled = true,
+        markdown = {
+          enabled = true,
+          only_render_image_at_cursor = false,
+        },
+        -- Optional limits
+        max_width = 80,
+        max_height = 40,
+        -- backend = "kitty", -- uncomment to force
+      },
+    },
+  },
+  {
     "mfussenegger/nvim-dap",
     keys = {
       {
@@ -61,39 +77,6 @@ return {
       },
     },
   },
-  {
-    "Kurama622/markdown-org",
-    ft = "markdown",
-    config = function()
-      vim.g.language_path = {
-        python = "/usr/bin/python3",
-        python3 = "/usr/bin/python3",
-        go = "go",
-        c = "gcc -Wall",
-        cpp = "g++ -std=c++11 -Wall",
-        bash = "bash",
-        ["c++"] = "g++ -std=c++11 -Wall",
-      }
-      return {
-        default_quick_keys = 0,
-        vim.api.nvim_set_var("org#style#border", 2),
-        vim.api.nvim_set_var("org#style#bordercolor", "FloatBorder"),
-        vim.api.nvim_set_var("org#style#color", "String"),
-      }
-    end,
-    keys = {
-      { "<leader>mr", "<cmd>call org#main#runCodeBlock()<cr>" },
-      { "<leader>ml", "<cmd>call org#main#runLanguage()<cr>" },
-    },
-  },
-  -- {
-  --   "durd07/code-runner",
-  --   -- name = "code_runner",
-  --   config = function()
-  --     require("code-runner").setup()
-  --   end,
-  --   ft = { "markdown" }, -- load it only for markdown files
-  -- },
   {
     "s1n7ax/nvim-window-picker",
     version = "2.*",
@@ -246,59 +229,4 @@ return {
     -- Uncomment next line if you want to follow only stable versions
     -- version = "*"
   },
-  -- {
-  --   "huggingface/llm.nvim",
-  --   opts = {
-  --     backend = "openai",
-  --     model = "Qwen/Qwen2.5-Coder-32B-Instruct-GPTQ-Int8",
-  --     url = "http://10.67.39.230:38081/v1/", -- llm-ls uses "/v1/completions"
-  --     -- cf https://github.com/abetlen/llama-cpp-python?tab=readme-ov-file#openai-compatible-web-server
-  --     request_body = {
-  --       temperature = 0.1,
-  --       top_p = 0.95,
-  --     },
-  --     -- cf Setup
-  --   },
-  -- },
-  -- {
-  --   "Kurama622/llm.nvim",
-  --   dependencies = { "nvim-lua/plenary.nvim", "MunifTanjim/nui.nvim" },
-  --   cmd = { "LLMSessionToggle", "LLMSelectedTextHandler", "LLMAppHandler" },
-  --   config = function()
-  --     require("llm").setup({
-  --       url = "http://10.67.39.230:38081/v1/chat/completions",
-  --       model = "Qwen/Qwen2.5-Coder-32B-Instruct-GPTQ-Int8",
-  --       api_type = "openai",
-  --       app_handler = {
-  --         Completion = {
-  --           opts = {
-  --             keymap = {
-  --               toggle = {
-  --                 mode = "n",
-  --                 keys = "<leader>cp",
-  --               },
-  --               virtual_text = {
-  --                 accept = {
-  --                   mode = "i",
-  --                   keys = "<A-a>",
-  --                 },
-  --                 next = {
-  --                   mode = "i",
-  --                   keys = "<A-n>",
-  --                 },
-  --                 prev = {
-  --                   mode = "i",
-  --                   keys = "<A-p>",
-  --                 },
-  --               },
-  --             },
-  --           },
-  --         },
-  --       },
-  --     })
-  --   end,
-  --   keys = {
-  --     { "<leader>ac", mode = "n", "<cmd>LLMSessionToggle<cr>" },
-  --   },
-  -- },
 }

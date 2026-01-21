@@ -9,3 +9,11 @@
 
 -- show line number for telescope preview
 vim.cmd("autocmd User TelescopePreviewerLoaded setlocal number")
+
+-- Activate otter.nvim automatically for certain filetypes
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "markdown", "quarto", "org", "norg" },
+  callback = function()
+    require("otter").activate()
+  end,
+})

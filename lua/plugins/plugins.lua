@@ -1,7 +1,5 @@
 return {
-  -- https://github.com/LazyVim/LazyVim/issues/6039
-  -- { "mason-org/mason.nvim", version = "^1.0.0" },
-  -- { "mason-org/mason-lspconfig.nvim", version = "^1.0.0" },
+  -- Markdown Image Preview
   -- {
   --   "HakonHarnes/img-clip.nvim",
   --   event = "VeryLazy",
@@ -14,22 +12,22 @@ return {
   --     { "<leader>p", "<cmd>PasteImage<cr>", desc = "Paste image from system clipboard" },
   --   },
   -- },
-  {
-    "folke/snacks.nvim",
-    opts = {
-      image = {
-        enabled = true,
-        markdown = {
-          enabled = true,
-          only_render_image_at_cursor = false,
-        },
-        -- Optional limits
-        max_width = 80,
-        max_height = 40,
-        -- backend = "kitty", -- uncomment to force
-      },
-    },
-  },
+  -- {
+  --   "folke/snacks.nvim",
+  --   opts = {
+  --     image = {
+  --       enabled = true,
+  --       markdown = {
+  --         enabled = true,
+  --         only_render_image_at_cursor = false,
+  --       },
+  --       -- Optional limits
+  --       max_width = 80,
+  --       max_height = 40,
+  --       -- backend = "kitty", -- uncomment to force
+  --     },
+  --   },
+  -- },
   {
     "mfussenegger/nvim-dap",
     keys = {
@@ -98,53 +96,15 @@ return {
   },
   {
     "loctvl842/monokai-pro.nvim",
+    lazy = false,
+    priority = 1000,
     config = function()
-      require("monokai-pro").setup()
+      require("monokai-pro").setup({
+        filter = "spectrum", -- classic | octagon | pro | machine | ristretto | spectrum
+      })
+      vim.cmd.colorscheme("monokai-pro")
     end,
   },
-  -- {
-  --   "powerman/vim-plugin-AnsiEsc",
-  --   config = function()
-  --     vim.cmd("autocmd BufReadPost * :AnsiEsc")
-  --   end,
-  -- },
-  {
-    "LazyVim/LazyVim",
-    opts = {
-      colorscheme = "monokai-pro-spectrum",
-    },
-  },
-  -- {
-  --   "toppair/peek.nvim",
-  --   event = { "VeryLazy" },
-  --   build = "deno task --quiet build:fast",
-  --   config = function()
-  --     require("peek").setup()
-  --     vim.api.nvim_create_user_command("PeekOpen", require("peek").open, {})
-  --     vim.api.nvim_create_user_command("PeekClose", require("peek").close, {})
-  --   end,
-  -- },
-  -- {
-  --   "iamcco/markdown-preview.nvim",
-  --   keys = { { "<f7>", "<cmd> MarkdownPreviewToggle <CR>" } },
-  --   cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
-  --   ft = "markdown",
-  --   build = "cd app && npm install",
-  --   config = function()
-  --     vim.api.nvim_exec2(
-  --       [[
-  --       function MkdpBrowserFn(url)
-  --         execute 'silent ! kitty @ launch --dont-take-focus --bias 40 awrit ' . a:url
-  --       endfunction
-  --     ]],
-  --       {}
-  --     )
-  --
-  --     vim.g.mkdp_theme = "dark"
-  --     vim.g.mkdp_filetypes = { "markdown" }
-  --     vim.g.mkdp_browserfunc = "MkdpBrowserFn"
-  --   end,
-  -- },
   {
     "dhananjaylatkar/cscope_maps.nvim",
     dependencies = {
@@ -204,10 +164,6 @@ return {
       })
     end,
   },
-  -- {
-  --   "github/copilot.vim",
-  --   lazy = false, -- load on startup
-  -- },
   {
     "danymat/neogen",
     dependencies = "nvim-treesitter/nvim-treesitter",
@@ -228,5 +184,9 @@ return {
     },
     -- Uncomment next line if you want to follow only stable versions
     -- version = "*"
+  },
+  {
+    "github/copilot.vim",
+    lazy = false, -- IMPORTANT: Copilot commands must be available immediately
   },
 }

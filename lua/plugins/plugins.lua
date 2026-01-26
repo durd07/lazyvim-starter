@@ -98,12 +98,17 @@ return {
     "loctvl842/monokai-pro.nvim",
     lazy = false,
     priority = 1000,
-    config = function()
-      require("monokai-pro").setup({
-        filter = "spectrum", -- classic | octagon | pro | machine | ristretto | spectrum
-      })
-      vim.cmd.colorscheme("monokai-pro")
-    end,
+    opts = {
+      filter = "spectrum", -- classic | octagon | pro | machine | ristretto | spectrum
+
+      override = function()
+        local bg = "#0e0e0e"
+        return {
+          Normal = { bg = bg },
+          NormalNC = { bg = bg },
+        }
+      end,
+    },
   },
   {
     "dhananjaylatkar/cscope_maps.nvim",
@@ -188,5 +193,11 @@ return {
   {
     "github/copilot.vim",
     lazy = false, -- IMPORTANT: Copilot commands must be available immediately
+  },
+  {
+    "LazyVim/LazyVim",
+    opts = {
+      colorscheme = "monokai-pro",
+    },
   },
 }

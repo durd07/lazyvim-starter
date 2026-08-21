@@ -2,6 +2,9 @@
 -- external browser. mkdp_browser is unusable here: its opener treats WSL as
 -- Windows and launches the browser through `cmd.exe /c start`, which cannot see
 -- the Linux-side terminal-browser, and it cannot pass --split either.
+--
+-- mkdp_combine_preview keeps a single page that follows whichever markdown
+-- buffer is current, so there is only ever one browser pane to track.
 
 local split = "right"
 local size = "0.5"
@@ -10,8 +13,8 @@ local size = "0.5"
 local in_tmux = vim.env.TMUX ~= nil
 local editor_pane = vim.env.TMUX_PANE
 
----@type table<integer, { key?: string, pane?: string, pid?: integer, closed?: boolean }>
-local previews = {}
+---@type { bufnr?: integer, key?: string, pane?: string, pid?: integer, closed?: boolean }|nil
+local preview = nil
 
 local function terminate(entry, wait)
   local cmd
@@ -28,12 +31,12 @@ local function terminate(entry, wait)
   end
 end
 
-local function close(bufnr, wait)
-  local entry = previews[bufnr]
+local function close(wait)
+  local entry = preview
   if not entry then
     return
   end
-  previews[bufnr] = nil
+  preview = nil
   -- when the browser is still starting up, terminate() runs once it reports back
   entry.closed = true
   terminate(entry, wait)
@@ -59,11 +62,10 @@ local function locate_pane(entry)
 end
 
 local function open(url)
-  local bufnr = tonumber(url:match("/page/(%d+)")) or vim.api.nvim_get_current_buf()
-  close(bufnr)
+  close()
 
-  local entry = {}
-  previews[bufnr] = entry
+  local entry = { bufnr = tonumber(url:match("/page/(%d+)")) or vim.api.nvim_get_current_buf() }
+  preview = entry
 
   -- find in page: "/" like the editor, keeping terminal-browser's own binding too
   local cmd =
@@ -75,7 +77,9 @@ local function open(url)
 
   vim.system(cmd, { text = true }, function(out)
     if out.code ~= 0 then
-      previews[bufnr] = nil
+      if preview == entry then
+        preview = nil
+      end
       vim.schedule(function()
         local err = vim.trim((out.stderr or "") .. (out.stdout or ""))
         vim.notify("terminal-browser failed: " .. err, vim.log.levels.ERROR)
@@ -95,10 +99,9 @@ local function open(url)
 end
 
 local function toggle()
-  local bufnr = vim.api.nvim_get_current_buf()
-  if previews[bufnr] then
+  if preview then
     pcall(vim.cmd, "MarkdownPreviewStop")
-    close(bufnr)
+    close()
   else
     vim.cmd("MarkdownPreview")
   end
@@ -121,20 +124,31 @@ return {
     -- the pane is torn down by toggle() and the autocmds below, so mkdp must not
     -- stop the preview on its own when leaving the markdown buffer
     vim.g.mkdp_auto_close = 0
+    -- reuse the open page for the markdown buffer you switch to
+    vim.g.mkdp_combine_preview = 1
+    vim.g.mkdp_combine_preview_auto_refresh = 1
 
     local group = vim.api.nvim_create_augroup("mkdp_terminal_browser", { clear = true })
+    vim.api.nvim_create_autocmd("BufEnter", {
+      group = group,
+      callback = function(ev)
+        if preview and vim.bo[ev.buf].filetype == "markdown" then
+          preview.bufnr = ev.buf
+        end
+      end,
+    })
     vim.api.nvim_create_autocmd({ "BufDelete", "BufWipeout" }, {
       group = group,
       callback = function(ev)
-        close(ev.buf)
+        if preview and preview.bufnr == ev.buf then
+          close()
+        end
       end,
     })
     vim.api.nvim_create_autocmd("VimLeavePre", {
       group = group,
       callback = function()
-        for _, bufnr in ipairs(vim.tbl_keys(previews)) do
-          close(bufnr, true)
-        end
+        close(true)
       end,
     })
   end,

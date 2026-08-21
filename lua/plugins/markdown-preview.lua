@@ -65,16 +65,15 @@ local function open(url)
   local entry = {}
   previews[bufnr] = entry
 
-  vim.system({
-    "terminal-browser",
-    "open",
-    url,
-    "--split",
-    split,
-    "--size",
-    size,
-    "--no-toolbar",
-  }, { text = true }, function(out)
+  -- find in page: "/" like the editor, keeping terminal-browser's own binding too
+  local cmd =
+    { "terminal-browser", "open", url, "--split", split, "--size", size, "--no-toolbar", "--find-key=/ ctrl+shift+f" }
+  local keys_script = vim.fn.stdpath("config") .. "/scripts/vim-keys.js"
+  if vim.uv.fs_stat(keys_script) then
+    table.insert(cmd, "--preload=" .. keys_script)
+  end
+
+  vim.system(cmd, { text = true }, function(out)
     if out.code ~= 0 then
       previews[bufnr] = nil
       vim.schedule(function()

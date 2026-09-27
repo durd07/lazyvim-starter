@@ -67,13 +67,9 @@ local function open(url)
   local entry = { bufnr = tonumber(url:match("/page/(%d+)")) or vim.api.nvim_get_current_buf() }
   preview = entry
 
-  -- find in page: "/" like the editor, keeping terminal-browser's own binding too
-  local cmd =
-    { "terminal-browser", "open", url, "--split", split, "--size", size, "--no-toolbar", "--find-key=/ ctrl+shift+f" }
-  local keys_script = vim.fn.stdpath("config") .. "/scripts/vim-keys.js"
-  if vim.uv.fs_stat(keys_script) then
-    table.insert(cmd, "--preload=" .. keys_script)
-  end
+  -- "/" for find and vim keys come from terminal-browser config, see
+  -- ~/.config/terminal-browser/shortcuts.json (find) and ctrl+m (vim mode).
+  local cmd = { "terminal-browser", "open", url, "--split", split, "--size", size }
 
   vim.system(cmd, { text = true }, function(out)
     if out.code ~= 0 then

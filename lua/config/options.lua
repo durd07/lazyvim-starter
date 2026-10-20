@@ -22,6 +22,9 @@ opt.softtabstop = 0
 opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 opt.foldmethod = "expr"
 
+-- 不显示窗口之间的竖分隔线（仍保留 1 列，但用空格填充）
+opt.fillchars:append({ vert = " " })
+
 -- Disable LazyVim auto format
 vim.g.autoformat = false
 

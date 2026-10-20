@@ -92,6 +92,12 @@ return {
           return opts.id
         end,
       },
+      -- 让序号背景与所在 tab 的背景一致，不再出现单独的数字底色
+      highlights = {
+        numbers = { bg = { highlight = "BufferLineBackground", attribute = "bg" } },
+        numbers_selected = { bg = { highlight = "BufferLineBufferSelected", attribute = "bg" } },
+        numbers_visible = { bg = { highlight = "BufferLineBufferVisible", attribute = "bg" } },
+      },
     },
   },
   {

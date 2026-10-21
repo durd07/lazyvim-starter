@@ -60,6 +60,64 @@ vim.api.nvim_create_autocmd("ColorScheme", {
   callback = fix_trouble_background,
 })
 
+-- 隐藏 Document Symbols（Trouble）左侧那条竖分隔线。
+-- 竖线属于它左边的窗口，所以只对"紧挨着 trouble 窗口左侧"的窗口通过 winhighlight 隐藏，
+-- 其他普通 split 的分隔线保持不变。
+local TROUBLE_SEP_HL = "TroubleSeparatorHidden"
+
+local function update_trouble_separator()
+  local bg = vim.api.nvim_get_hl(0, { name = "Normal", link = false }).bg
+  bg = bg and string.format("#%06x", bg) or "#0e0e0e"
+  vim.api.nvim_set_hl(0, TROUBLE_SEP_HL, { fg = bg, bg = bg })
+
+  local wins = vim.api.nvim_tabpage_list_wins(0)
+  local troubles = {}
+  for _, win in ipairs(wins) do
+    if vim.bo[vim.api.nvim_win_get_buf(win)].filetype == "trouble" then
+      troubles[#troubles + 1] = win
+    end
+  end
+
+  local pattern = "WinSeparator:" .. TROUBLE_SEP_HL
+  for _, win in ipairs(wins) do
+    if vim.api.nvim_win_get_config(win).relative == "" then
+      local pos = vim.api.nvim_win_get_position(win)
+      local width = vim.api.nvim_win_get_width(win)
+      local height = vim.api.nvim_win_get_height(win)
+
+      local adjacent = false
+      for _, t in ipairs(troubles) do
+        local tpos = vim.api.nvim_win_get_position(t)
+        local theight = vim.api.nvim_win_get_height(t)
+        -- trouble 的左边界正好是本窗口右边界 + 1 列分隔线，且上下有重叠
+        if tpos[2] == pos[2] + width + 1 and tpos[1] < pos[1] + height and pos[1] < tpos[1] + theight then
+          adjacent = true
+          break
+        end
+      end
+
+      local current = vim.wo[win].winhighlight
+      local has = current:find(pattern, 1, true) ~= nil
+      if adjacent and not has then
+        vim.wo[win].winhighlight = (current ~= "" and current .. "," or "") .. pattern
+      elseif not adjacent and has then
+        vim.wo[win].winhighlight = (current:gsub(",?" .. pattern, ""))
+      end
+    end
+  end
+end
+
+vim.api.nvim_create_autocmd(
+  { "WinEnter", "WinNew", "WinClosed", "BufWinEnter", "BufWinLeave", "WinResized", "VimResized", "ColorScheme" },
+  {
+    pattern = "*",
+    -- 延迟执行，确保 WinClosed 等事件触发时窗口列表已经更新
+    callback = function()
+      vim.schedule(update_trouble_separator)
+    end,
+  }
+)
+
 -- Activate otter.nvim automatically for certain filetypes
 vim.api.nvim_create_autocmd("FileType", {
   pattern = { "markdown", "quarto", "org", "norg" },

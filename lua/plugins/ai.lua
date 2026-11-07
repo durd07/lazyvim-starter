@@ -9,14 +9,7 @@ return {
     -- Optional: use your configured completion engine, or built-in completion.
     -- 'saghen/blink.cmp',
     -- 'hrsh7th/nvim-cmp',
-    {
-      'MeanderingProgrammer/render-markdown.nvim',
-      opts = {
-        anti_conceal = { enabled = false },
-        file_types = { 'markdown', 'opencode_output' },
-      },
-      ft = { 'markdown', 'opencode_output' },
-    },
+    -- 'MeanderingProgrammer/render-markdown.nvim',
   },
   opts = {},
 }

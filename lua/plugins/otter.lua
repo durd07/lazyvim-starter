@@ -24,7 +24,7 @@ return {
     end,
     keys = {
       {
-        "<leader>oa",
+        "<leader>ma",
         function()
           require("otter").activate({ "python", "lua", "bash", "javascript", "typescript", "go", "rust", "c", "cpp" })
           vim.notify("Otter activated", vim.log.levels.INFO)
@@ -32,9 +32,9 @@ return {
         ft = "markdown",
         desc = "Otter Activate",
       },
-      { "<leader>od", function() require("otter").deactivate() end, ft = "markdown", desc = "Otter Deactivate" },
-      { "<leader>ok", function() require("otter").ask_hover() end, ft = "markdown", desc = "Otter Hover" },
-      { "<leader>ogd", function() require("otter").ask_definition() end, ft = "markdown", desc = "Otter Go to Definition" },
+      { "<leader>md", function() require("otter").deactivate() end, ft = "markdown", desc = "Otter Deactivate" },
+      { "<leader>mk", function() require("otter").ask_hover() end, ft = "markdown", desc = "Otter Hover" },
+      { "<leader>mgd", function() require("otter").ask_definition() end, ft = "markdown", desc = "Otter Go to Definition" },
     },
   },
 

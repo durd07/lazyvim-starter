@@ -106,6 +106,9 @@ return {
         -- external buffer, which has no compile_commands.json or .clangd
         -- config, so cross-file gd/hover fails inside the header.
         clangd = {
+          -- Use the system clangd (clang-tools-extra package) instead of
+          -- letting Mason download its own copy.
+          -- mason = false,
           root_dir = clangd_root_dir,
         },
       })
